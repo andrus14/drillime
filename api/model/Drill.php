@@ -12,10 +12,12 @@ class Drill {
     public static function save () {
         global $pdo;
 
-        $name = filter_input(INPUT_POST, 'name', FILTER_SANITIZE_STRING);
-        $correct = filter_input(INPUT_POST, 'correct', FILTER_VALIDATE_INT);
-        $incorrect = filter_input(INPUT_POST, 'incorrect', FILTER_VALIDATE_INT);
-        $type = filter_input(INPUT_POST, 'type', FILTER_SANITIZE_STRING);
+        $payload = json_decode(file_get_contents('php://input'));
+
+        $name = filter_var($payload->name, FILTER_SANITIZE_STRING);
+        $correct = filter_var($payload->correct, FILTER_VALIDATE_INT);
+        $incorrect = filter_var($payload->incorrect, FILTER_VALIDATE_INT);
+        $type = filter_var($payload->type, FILTER_SANITIZE_STRING);
         $added = date("Y-m-d H:i:s");
 
         if (empty($name)) {
@@ -43,9 +45,37 @@ class Drill {
     public static function all () {
         global $pdo;
 
-        $statement = $pdo->prepare('SELECT * FROM results');
+        $statement = $pdo->prepare('SELECT * FROM results ORDER BY correct DESC, name ASC');
         $statement->execute();
         return json_encode($statement->fetchAll(PDO::FETCH_CLASS, 'Drill'));
+    }
+
+    public static function upload () {
+
+        $password = filter_input(INPUT_POST, 'password', FILTER_SANITIZE_STRING);
+
+        if ($password !== 'password') {
+            return static::message('password is missing!');
+        }
+
+        if ($_FILES && $_FILES['file']['tmp_name'] && is_uploaded_file($_FILES['file']['tmp_name']) && filesize($_FILES['file']['tmp_name']) > 0) {
+
+            $filepath = '../../upload/';
+
+            if (!file_exists($filepath)) {
+                mkdir($filepath, 0755);
+            }
+
+            do {
+                $newFilename = bin2hex(random_bytes(10)) . '.json';
+            } while (file_exists($filepath . $newFilename));
+
+            if (move_uploaded_file($_FILES['file']['tmp_name'], $filepath . $newFilename)) {
+                return static::message('file: ' . $newFilename . ' uploaded', true);
+            }
+        }
+
+        return static::message('problem uploading file');
     }
 
     public static function message ($msg, $result = false) {

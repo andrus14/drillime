@@ -18,6 +18,9 @@ switch ($p) {
     case 'results':
         exit(Drill::all());
         break;
+    case 'upload':
+        exit(Drill::upload());
+        break;
 
     default:
         exit(Drill::message('404'));

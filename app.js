@@ -110,6 +110,35 @@ function closeTest () {
     clearInterval(intervalId)
     answerBox.setAttribute('disabled', true)
     answerBox.value = ''
+
+    sendData ();
+}
+
+function sendData() {
+
+    var person = prompt("Please enter your name", "Harry Potter");
+
+    if (person != null) {
+        fetch('api/save', {
+            method: 'POST',
+            headers: {
+                'Content-Type': 'application/json',
+            },
+            body: JSON.stringify({
+                name: person,
+                type: 'type',
+                correct: correctCount,
+                incorrect: incorrectCount,
+            }),
+        })
+            .then((response) => response.json())
+            .then((data) => {
+                console.log('Success:', data);
+            })
+            .catch((error) => {
+                console.error('Error:', error);
+            });
+    }
 }
 
 // File upload

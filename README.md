@@ -31,3 +31,5 @@ api points:
     - api/save
         - name, correct, incorrect, type (POST)
     - api/results
+    - api/upload
+        password, file (POST)
