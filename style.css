@@ -1,0 +1,50 @@
+#container {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    margin: 24px;
+}
+
+#question {
+    font-size: 32px;
+    color: brown;
+}
+
+#answer-box {
+    margin: 24px;
+    padding: 8px;
+    font-size: 24px;
+    width: 240px;
+    height: 48px;
+}
+
+#timer {
+    color: blueviolet;
+    font-size: 24px;
+    font-weight: bold;
+}
+
+#feedback {
+    font-size: 48px;
+    font-weight: bold;
+}
+
+#correct {
+    color: green;
+    font-size: 48px;
+    font-weight: bold;
+}
+
+#incorrect {
+    color: red;
+    font-size: 48px;
+    font-weight: bold;
+}
+
+/* 
+
+.highlight {
+    color: blue;
+    font-weight: bold;
+}
+ */
