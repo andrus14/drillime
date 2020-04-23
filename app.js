@@ -54,6 +54,7 @@ const answerBox = document.getElementById('answer-box')
 const timerBoxDiv = document.getElementById('timer')
 const correctCounterDiv = document.getElementById('correct-counter')
 const incorrectCounterDiv = document.getElementById('incorrect-counter')
+const fileUpload = document.getElementById('file-upload')
 
 // Init test board
 titleH1.innerText = testData.metaData.title
@@ -110,3 +111,23 @@ function closeTest () {
     answerBox.setAttribute('disabled', true)
     answerBox.value = ''
 }
+
+// File upload
+fileUpload.addEventListener('change', e => {
+    const files = event.target.files
+    const formData = new FormData()
+    formData.append('file', files[0])
+    formData.append('password', adsf)
+  
+    fetch('/api/upload', {
+      method: 'POST',
+      body: formData
+    })
+    .then(response => response.json())
+    .then(data => {
+      console.log(data)
+    })
+    .catch(error => {
+      console.error(error)
+    })
+})
