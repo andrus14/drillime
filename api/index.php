@@ -3,7 +3,7 @@
 require_once 'connection.php';
 require_once 'model/Drill.php';
 
-if (!file_exists('2config.php')) {
+if (!file_exists('config.php')) {
     exit(Drill::message('config file is missing'));
 }
 
