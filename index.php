@@ -1,3 +1,22 @@
+<?php
+
+$aData = [];
+$directory = './upload/';
+
+if ( file_exists($directory) ) {
+    $aFiles = array_diff(scandir($directory), array('..', '.'));
+
+    foreach ( $aFiles as $file ) {
+        $content = json_decode(file_get_contents($directory . $file));
+        $aData[] = [
+            'filename' => $file,
+            'title' => $content->metaData->title,
+        ];
+    }
+}
+
+?>
+
 <!DOCTYPE html>
 <html lang="en">
 <head>
@@ -11,6 +30,17 @@
     <div id="container">
         <div id="sidebar">
             <input type="file" id="file-upload">
+            <div id="file-list">
+                <ul>
+                    <?php
+                    foreach ( $aData as $test ) {
+                    ?>
+                        <li><a href="?file=<?php echo $test['filename']; ?>"><?php echo $test['title']; ?></a></li>
+                    <?php
+                    }
+                    ?>
+                </ul>
+            </div>
         </div>
 
         <div id="main-content">
@@ -23,9 +53,7 @@
                 <div id="incorrect">Vale: <span id="incorrect-counter">0</span></div>
             <div>
         </div>
-
     </div>
-
 
     <script src="app.js"></script>
 </body>

@@ -2,48 +2,48 @@
     "metaData": {
         "title": "Inglise keel: linnud",
         "author": "Andrus Naulainen",
-        "date": "2020-04-23",
+        "date": "2020-04-23"
     },
     "questions": [
         {
             "question": "part",
             "answer": "duck",
-            "type": "word",
+            "type": "word"
         },
         {
             "question": "tuvi",
             "answer": "dove",
-            "type": "word",
+            "type": "word"
         },
         {
             "question": "öökull",
             "answer": "owl",
-            "type": "word",
+            "type": "word"
         },
         {
             "question": "kotkas",
             "answer": "eagle",
-            "type": "word",
+            "type": "word"
         },
         {
             "question": "emu",
             "answer": "emu",
-            "type": "word",
+            "type": "word"
         },
         {
             "question": "flamingo",
             "answer": "flamingo",
-            "type": "word",
+            "type": "word"
         },
         {
             "question": "emu",
             "answer": "emu",
-            "type": "word",
+            "type": "word"
         },
         {
             "question": "emu",
             "answer": "emu",
-            "type": "word",
-        },
+            "type": "word"
+        }
     ]
 }
