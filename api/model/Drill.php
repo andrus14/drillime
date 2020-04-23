@@ -50,6 +50,34 @@ class Drill {
         return json_encode($statement->fetchAll(PDO::FETCH_CLASS, 'Drill'));
     }
 
+    public static function upload () {
+
+        $password = filter_input(INPUT_POST, 'password', FILTER_SANITIZE_STRING);
+
+        if ($password !== 'password') {
+            return static::message('password is missing!');
+        }
+
+        if ($_FILES && $_FILES['file']['tmp_name'] && is_uploaded_file($_FILES['file']['tmp_name']) && filesize($_FILES['file']['tmp_name']) > 0) {
+
+            $filepath = '../../upload/';
+
+            if (!file_exists($filepath)) {
+                mkdir($filepath, 0755);
+            }
+
+            do {
+                $newFilename = bin2hex(random_bytes(10)) . '.json';
+            } while (file_exists($filepath . $newFilename));
+
+            if (move_uploaded_file($_FILES['file']['tmp_name'], $filepath . $newFilename)) {
+                return static::message('file: ' . $newFilename . ' uploaded', true);
+            }
+        }
+
+        return static::message('problem uploading file');
+    }
+
     public static function message ($msg, $result = false) {
         return json_encode([
             'is_success' => $result,
