@@ -60,7 +60,7 @@ class Drill {
 
         if ($_FILES && $_FILES['file']['tmp_name'] && is_uploaded_file($_FILES['file']['tmp_name']) && filesize($_FILES['file']['tmp_name']) > 0) {
 
-            $filepath = '../../upload/';
+            $filepath = '../upload/';
 
             if (!file_exists($filepath)) {
                 mkdir($filepath, 0755);

@@ -65,7 +65,7 @@ let incorrectCount = 0
 askNextQuestion()
 
 // Timer
-let timerValue = 6
+let timerValue = 60000
 timerBoxDiv.innerText = timerValue
 
 const intervalId = setInterval(() => {
@@ -116,7 +116,7 @@ function closeTest () {
 
 function sendData() {
 
-    var person = prompt("Please enter your name", "Harry Potter");
+    const person = prompt("Please enter your name", "Harry Potter");
 
     if (person != null) {
         fetch('api/save', {
@@ -143,10 +143,12 @@ function sendData() {
 
 // File upload
 fileUpload.addEventListener('change', e => {
+    const password = prompt("Insert password");
+
     const files = event.target.files
     const formData = new FormData()
     formData.append('file', files[0])
-    formData.append('password', adsf)
+    formData.append('password', password)
   
     fetch('/api/upload', {
       method: 'POST',
