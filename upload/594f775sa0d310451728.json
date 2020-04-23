@@ -1,0 +1,49 @@
+{
+    "metaData": {
+        "title": "Inglise keel: loomad",
+        "author": "Andrus Naulainen",
+        "date": "2020-04-23"
+    },
+    "questions": [
+        {
+            "question": "koer",
+            "answer": "dog",
+            "type": "word"
+        },
+        {
+            "question": "kass",
+            "answer": "cat",
+            "type": "word"
+        },
+        {
+            "question": "lehm",
+            "answer": "cow",
+            "type": "word"
+        },
+        {
+            "question": "hobune",
+            "answer": "horse",
+            "type": "word"
+        },
+        {
+            "question": "siga",
+            "answer": "pig",
+            "type": "word"
+        },
+        {
+            "question": "lammas",
+            "answer": "sheep",
+            "type": "word"
+        },
+        {
+            "question": "eesel",
+            "answer": "donkey",
+            "type": "word"
+        },
+        {
+            "question": "tall",
+            "answer": "lamb",
+            "type": "word"
+        }
+    ]
+}

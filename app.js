@@ -1,53 +1,3 @@
-const testData = {
-    "metaData": {
-        "title": "Inglise keel: linnud",
-        "author": "Andrus Naulainen",
-        "date": "2020-04-23",
-    },
-    "questions": [
-        {
-            "question": "part",
-            "answer": "duck",
-            "type": "word",
-        },
-        {
-            "question": "tuvi",
-            "answer": "dove",
-            "type": "word",
-        },
-        {
-            "question": "öökull",
-            "answer": "owl",
-            "type": "word",
-        },
-        {
-            "question": "kotkas",
-            "answer": "eagle",
-            "type": "word",
-        },
-        {
-            "question": "emu",
-            "answer": "emu",
-            "type": "word",
-        },
-        {
-            "question": "flamingo",
-            "answer": "flamingo",
-            "type": "word",
-        },
-        {
-            "question": "emu",
-            "answer": "emu",
-            "type": "word",
-        },
-        {
-            "question": "emu",
-            "answer": "emu",
-            "type": "word",
-        },
-    ]
-}
-
 const titleH1 = document.getElementById('title')
 const questionDiv = document.getElementById('question')
 const answerBox = document.getElementById('answer-box')
@@ -56,26 +6,56 @@ const correctCounterDiv = document.getElementById('correct-counter')
 const incorrectCounterDiv = document.getElementById('incorrect-counter')
 const fileUpload = document.getElementById('file-upload')
 
-// Init test board
-titleH1.innerText = testData.metaData.title
-answerBox.focus()
 let questionIndex = -1
 let correctCount = 0
 let incorrectCount = 0
-askNextQuestion()
+
+var testData
+var correctAnswers
+
+const queryString = window.location.search
+const urlParams = new URLSearchParams(queryString)
+const fileName = '/upload/' + urlParams.get('file')
+
+fetch(fileName)
+.then(response => response.json())
+.then(data => {
+    testData = data
+    initTestBoard(testData.metaData.title)
+    startTest()
+})
+
+// Init test board
+function initTestBoard ( title ) {
+    correctAnswers = []
+    titleH1.innerText = title
+    answerBox.focus()
+    askNextQuestion()
+}
 
 // Timer
-let timerValue = 60000
-timerBoxDiv.innerText = timerValue
-
-const intervalId = setInterval(() => {
-    timerValue--
+function startTest () {
+    let timerValue = 60000
     timerBoxDiv.innerText = timerValue
+    
+    const intervalId = setInterval(() => {
+        timerValue--
+        timerBoxDiv.innerText = timerValue
+    
+        if ( timerValue == 0 ) {
+            closeTest(intervalId)
+        }
+    }, 1000)
+}
 
-    if ( timerValue == 0 ) {
-        closeTest()
-    }
-}, 1000)
+// If time is up, close the test
+function closeTest (intervalId) {
+    clearInterval(intervalId)
+    answerBox.setAttribute('disabled', true)
+    answerBox.value = ''
+
+    sendData ();
+}
 
 // Listen keydown event
 answerBox.addEventListener('keydown', e => {
@@ -95,23 +75,30 @@ function askNextQuestion () {
 
 // Check answer
 function checkAnswer () {
-    if ( answerBox.value == testData.questions[questionIndex].answer ) {
-        correctCount++
-        correctCounterDiv.innerText = correctCount
-    } else {
-        incorrectCount++
-        incorrectCounterDiv.innerText = incorrectCount
+    const question = testData.questions[questionIndex] 
+    if ( question.type == 'word' ) {
+        if ( answerBox.value.toLowerCase() == question.answer.toLowerCase() ) {
+            correctCount++
+            correctCounterDiv.innerText = correctCount
+        } else {
+            incorrectCount++
+            incorrectCounterDiv.innerText = incorrectCount
+        }
+    } else if ( question.type == 'list' ) {
+        const userAnswer = answerBox.value.toLowerCase()
+        if ( !correctAnswers.includes(userAnswer) ) {
+            if ( question.answer.includes(userAnswer) ) {
+                correctAnswers.push(userAnswer)
+                correctCount++
+                correctCounterDiv.innerText = correctCount
+            } else {
+                incorrectCount++
+                incorrectCounterDiv.innerText = incorrectCount
+            }
+        }
     }
-    answerBox.value = ''
-}
 
-// If time is up, close the test
-function closeTest () {
-    clearInterval(intervalId)
-    answerBox.setAttribute('disabled', true)
     answerBox.value = ''
-
-    sendData ();
 }
 
 function sendData() {
@@ -156,7 +143,7 @@ fileUpload.addEventListener('change', e => {
     })
     .then(response => response.json())
     .then(data => {
-      console.log(data)
+        e.target.value = null
     })
     .catch(error => {
       console.error(error)
