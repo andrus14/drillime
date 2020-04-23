@@ -12,10 +12,12 @@ class Drill {
     public static function save () {
         global $pdo;
 
-        $name = filter_input(INPUT_POST, 'name', FILTER_SANITIZE_STRING);
-        $correct = filter_input(INPUT_POST, 'correct', FILTER_VALIDATE_INT);
-        $incorrect = filter_input(INPUT_POST, 'incorrect', FILTER_VALIDATE_INT);
-        $type = filter_input(INPUT_POST, 'type', FILTER_SANITIZE_STRING);
+        $payload = json_decode(file_get_contents('php://input'));
+
+        $name = filter_var($payload->name, FILTER_SANITIZE_STRING);
+        $correct = filter_var($payload->correct, FILTER_VALIDATE_INT);
+        $incorrect = filter_var($payload->incorrect, FILTER_VALIDATE_INT);
+        $type = filter_var($payload->type, FILTER_SANITIZE_STRING);
         $added = date("Y-m-d H:i:s");
 
         if (empty($name)) {
@@ -43,7 +45,7 @@ class Drill {
     public static function all () {
         global $pdo;
 
-        $statement = $pdo->prepare('SELECT * FROM results');
+        $statement = $pdo->prepare('SELECT * FROM results ORDER BY correct DESC, name ASC');
         $statement->execute();
         return json_encode($statement->fetchAll(PDO::FETCH_CLASS, 'Drill'));
     }
