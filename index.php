@@ -7,6 +7,18 @@
     <title>Drillime</title>
 </head>
 <body>
-    
+
+    <div id="container">
+        <h1 id="title"></h1>
+        <div id="question"></div>
+        <input id="answer-box" type="text">
+        <div id="timer"></div>
+        <div id="feedback">
+            <div id="correct">Õige: <span id="correct-counter">0</span></div>
+            <div id="incorrect">Vale: <span id="incorrect-counter">0</span></div>
+        <div>
+    </div>
+
+    <script src="app.js"></script>
 </body>
 </html>

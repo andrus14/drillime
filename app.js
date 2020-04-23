@@ -64,7 +64,7 @@ let incorrectCount = 0
 askNextQuestion()
 
 // Timer
-let timerValue = 60
+let timerValue = 6
 timerBoxDiv.innerText = timerValue
 
 const intervalId = setInterval(() => {
@@ -107,5 +107,6 @@ function checkAnswer () {
 // If time is up, close the test
 function closeTest () {
     clearInterval(intervalId)
+    answerBox.setAttribute('disabled', true)
     answerBox.value = ''
 }
